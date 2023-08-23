@@ -1,7 +1,5 @@
 # midjourney-proxy
 
-> 更多功能：[midjourney-proxy-plus](https://github.com/litter-coder/midjourney-proxy-plus)
-
 代理 MidJourney 的discord频道，实现api形式调用AI绘图
 
 [![GitHub release](https://img.shields.io/static/v1?label=release&message=v2.4&color=blue)](https://www.github.com/novicezk/midjourney-proxy)
@@ -17,6 +15,10 @@
 - [x] 任务队列，默认队列10，并发3。可参考 [MidJourney订阅级别](https://docs.midjourney.com/docs/plans) 调整mj.queue
 - [x] user-token 连接 wss，可以获取错误信息和完整功能
 - [x] 支持 discord域名(server、cdn、wss)反代，配置 mj.ng-discord
+
+## 以下为在原版基础增加的功能
+- [x] 支持U之后的所有相关动作：Zoom(图片变焦)、Pan(焦点移动) 等
+- [x] 支持U之后的所有相关动作：Vary(Strong)、Vary(Subtle) 等
 
 ## 使用前提
 1. 注册并订阅 MidJourney，创建自己的频道，参考 https://docs.midjourney.com/docs/quick-start
@@ -47,11 +49,9 @@
 
 ## 注意事项
 1. 作图频繁等行为，可能会触发midjourney账号警告，请谨慎使用
-2. 常见问题及解决办法见 [Wiki / FAQ](https://github.com/novicezk/midjourney-proxy/wiki/FAQ)
-3. 在 [Issues](https://github.com/novicezk/midjourney-proxy/issues) 中提出其他问题或建议
-4. 感兴趣的朋友也欢迎加入交流群讨论一下，扫码进群名额已满，加管理员微信邀请进群
+2. 常见问题及解决办法见 [Wiki / FAQ](https://github.com/imkratos/midjourney-proxy/wiki/FAQ)
+3. 在 [Issues](https://github.com/imkratos/midjourney-proxy/issues) 中提出其他问题或建议
 
- <img src="https://raw.githubusercontent.com/novicezk/midjourney-proxy/main/docs/manager-qrcode.png" width="220" alt="微信二维码"/>
 
 ## 应用项目
 依赖此项目且开源的，欢迎联系作者，加到此处展示
@@ -62,8 +62,4 @@
 - [koishi-plugin-midjourney-discord](https://github.com/araea/koishi-plugin-midjourney-discord) : Koishi插件，在Koishi支持的聊天平台中调用Midjourney
 
 ## 其它
-如果觉得这个项目对你有所帮助，请帮忙点个star；也可以请作者喝杯茶～
-
- <img src="https://raw.githubusercontent.com/novicezk/midjourney-proxy/main/docs/receipt-code.png" width="220" alt="二维码"/>
-
 [![Star History Chart](https://api.star-history.com/svg?repos=novicezk/midjourney-proxy&type=Date)](https://star-history.com/#novicezk/midjourney-proxy&Date)

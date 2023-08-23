@@ -13,4 +13,6 @@ public abstract class BaseSubmitDTO {
 
 	@ApiModelProperty("回调地址, 为空时使用全局notifyHook")
 	protected String notifyHook;
+
+
 }

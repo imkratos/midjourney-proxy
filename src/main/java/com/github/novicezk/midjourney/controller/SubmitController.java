@@ -5,12 +5,7 @@ import cn.hutool.core.util.RandomUtil;
 import com.github.novicezk.midjourney.Constants;
 import com.github.novicezk.midjourney.ProxyProperties;
 import com.github.novicezk.midjourney.ReturnCode;
-import com.github.novicezk.midjourney.dto.BaseSubmitDTO;
-import com.github.novicezk.midjourney.dto.SubmitBlendDTO;
-import com.github.novicezk.midjourney.dto.SubmitChangeDTO;
-import com.github.novicezk.midjourney.dto.SubmitDescribeDTO;
-import com.github.novicezk.midjourney.dto.SubmitImagineDTO;
-import com.github.novicezk.midjourney.dto.SubmitSimpleChangeDTO;
+import com.github.novicezk.midjourney.dto.*;
 import com.github.novicezk.midjourney.enums.TaskAction;
 import com.github.novicezk.midjourney.enums.TaskStatus;
 import com.github.novicezk.midjourney.exception.BannedPromptException;
@@ -199,6 +194,112 @@ public class SubmitController {
 		task.setDescription("/blend " + task.getId() + " " + dataUrlList.size());
 		return this.taskService.submitBlend(task, dataUrlList, blendDTO.getDimensions());
 	}
+
+
+	@ApiOperation(value = "提交zoom任务")
+	@PostMapping("/zoom")
+	public SubmitResultVO zoom(@RequestBody SubmitZoomDTO submitZoomDTO){
+		if (CharSequenceUtil.isBlank(submitZoomDTO.getTaskId())) {
+			return SubmitResultVO.fail(ReturnCode.VALIDATION_ERROR, "taskId不能为空");
+		}
+		if (!Set.of(TaskAction.ZOOM_1,TaskAction.ZOOM_2).contains(submitZoomDTO.getAction())) {
+			return SubmitResultVO.fail(ReturnCode.VALIDATION_ERROR, "action参数错误");
+		}
+
+		Task targetTask = this.taskStoreService.get(submitZoomDTO.getTaskId());
+		if (targetTask == null) {
+			return SubmitResultVO.fail(ReturnCode.NOT_FOUND, "关联任务不存在或已失效");
+		}
+		if (!TaskStatus.SUCCESS.equals(targetTask.getStatus())) {
+			return SubmitResultVO.fail(ReturnCode.VALIDATION_ERROR, "关联任务状态错误");
+		}
+//		if (!Set.of(TaskAction.ZOOM_1,TaskAction.ZOOM_2).contains(targetTask.getAction())) {
+//			return SubmitResultVO.fail(ReturnCode.VALIDATION_ERROR, "同时只能执行一个缩放");
+//		}
+
+		Task task = newTask(submitZoomDTO);
+		task.setAction(submitZoomDTO.getAction());
+		task.setProperty(Constants.TASK_PROPERTY_FINAL_PROMPT, targetTask.getProperty(Constants.TASK_PROPERTY_FINAL_PROMPT));
+		task.setProperty(Constants.TASK_PROPERTY_PROGRESS_MESSAGE_ID, targetTask.getProperty(Constants.TASK_PROPERTY_MESSAGE_ID));
+//		task.setDescription(description);
+		int messageFlags = targetTask.getPropertyGeneric(Constants.TASK_PROPERTY_FLAGS);
+		String messageId = targetTask.getPropertyGeneric(Constants.TASK_PROPERTY_MESSAGE_ID);
+		String messageHash = targetTask.getPropertyGeneric(Constants.TASK_PROPERTY_MESSAGE_HASH);
+
+		return  this.taskService.submitZoom(task,messageId,messageHash,messageFlags);
+
+	}
+
+	@ApiOperation(value = "提交vary任务")
+	@PostMapping("/vary")
+	public SubmitResultVO vary(@RequestBody SubmitVaryDTO submitVaryDTO){
+		if (CharSequenceUtil.isBlank(submitVaryDTO.getTaskId())) {
+			return SubmitResultVO.fail(ReturnCode.VALIDATION_ERROR, "taskId不能为空");
+		}
+		if (!Set.of(TaskAction.VARY_HIGH,TaskAction.VARY_LOW).contains(submitVaryDTO.getAction())) {
+			return SubmitResultVO.fail(ReturnCode.VALIDATION_ERROR, "action参数错误");
+		}
+
+		Task targetTask = this.taskStoreService.get(submitVaryDTO.getTaskId());
+		if (targetTask == null) {
+			return SubmitResultVO.fail(ReturnCode.NOT_FOUND, "关联任务不存在或已失效");
+		}
+		if (!TaskStatus.SUCCESS.equals(targetTask.getStatus())) {
+			return SubmitResultVO.fail(ReturnCode.VALIDATION_ERROR, "关联任务状态错误");
+		}
+//		if (!Set.of(TaskAction.ZOOM_1,TaskAction.ZOOM_2).contains(targetTask.getAction())) {
+//			return SubmitResultVO.fail(ReturnCode.VALIDATION_ERROR, "同时只能执行一个缩放");
+//		}
+
+		Task task = newTask(submitVaryDTO);
+		task.setAction(submitVaryDTO.getAction());
+		task.setProperty(Constants.TASK_PROPERTY_FINAL_PROMPT, targetTask.getProperty(Constants.TASK_PROPERTY_FINAL_PROMPT));
+		task.setProperty(Constants.TASK_PROPERTY_PROGRESS_MESSAGE_ID, targetTask.getProperty(Constants.TASK_PROPERTY_MESSAGE_ID));
+//		task.setDescription(description);
+		int messageFlags = targetTask.getPropertyGeneric(Constants.TASK_PROPERTY_FLAGS);
+		String messageId = targetTask.getPropertyGeneric(Constants.TASK_PROPERTY_MESSAGE_ID);
+		String messageHash = targetTask.getPropertyGeneric(Constants.TASK_PROPERTY_MESSAGE_HASH);
+
+		return  this.taskService.submitVary(task,messageId,messageHash,messageFlags);
+
+	}
+
+	@ApiOperation(value = "提交move任务")
+	@PostMapping("/move")
+	public SubmitResultVO move(@RequestBody SubmitMoveDTO submitMoveDTO){
+		if (CharSequenceUtil.isBlank(submitMoveDTO.getTaskId())) {
+			return SubmitResultVO.fail(ReturnCode.VALIDATION_ERROR, "taskId不能为空");
+		}
+		if (!Set.of(TaskAction.MOVE_UP,TaskAction.MOVE_DOWN,TaskAction.MOVE_LEFT,TaskAction.MOVE_RIGHT).contains(submitMoveDTO.getAction())) {
+			return SubmitResultVO.fail(ReturnCode.VALIDATION_ERROR, "action参数错误");
+		}
+
+		Task targetTask = this.taskStoreService.get(submitMoveDTO.getTaskId());
+		if (targetTask == null) {
+			return SubmitResultVO.fail(ReturnCode.NOT_FOUND, "关联任务不存在或已失效");
+		}
+		if (!TaskStatus.SUCCESS.equals(targetTask.getStatus())) {
+			return SubmitResultVO.fail(ReturnCode.VALIDATION_ERROR, "关联任务状态错误");
+		}
+//		if (!Set.of(TaskAction.ZOOM_1,TaskAction.ZOOM_2).contains(targetTask.getAction())) {
+//			return SubmitResultVO.fail(ReturnCode.VALIDATION_ERROR, "同时只能执行一个缩放");
+//		}
+
+		Task task = newTask(submitMoveDTO);
+		task.setAction(submitMoveDTO.getAction());
+		task.setProperty(Constants.TASK_PROPERTY_FINAL_PROMPT, targetTask.getProperty(Constants.TASK_PROPERTY_FINAL_PROMPT));
+		task.setProperty(Constants.TASK_PROPERTY_PROGRESS_MESSAGE_ID, targetTask.getProperty(Constants.TASK_PROPERTY_MESSAGE_ID));
+//		task.setDescription(description);
+		int messageFlags = targetTask.getPropertyGeneric(Constants.TASK_PROPERTY_FLAGS);
+		String messageId = targetTask.getPropertyGeneric(Constants.TASK_PROPERTY_MESSAGE_ID);
+		String messageHash = targetTask.getPropertyGeneric(Constants.TASK_PROPERTY_MESSAGE_HASH);
+
+		return  this.taskService.move(task,messageId,messageHash,messageFlags);
+
+	}
+
+
+
 
 	private Task newTask(BaseSubmitDTO base) {
 		Task task = new Task();

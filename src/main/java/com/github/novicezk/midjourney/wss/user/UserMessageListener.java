@@ -32,6 +32,7 @@ public class UserMessageListener implements ApplicationListener<ApplicationStart
 			return;
 		}
 		DataObject data = raw.getObject("d");
+
 		if (ignoreAndLogMessage(data, messageType)) {
 			return;
 		}

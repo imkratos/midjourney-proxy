@@ -3,6 +3,7 @@ package com.github.novicezk.midjourney.service;
 import com.github.novicezk.midjourney.Constants;
 import com.github.novicezk.midjourney.ReturnCode;
 import com.github.novicezk.midjourney.enums.BlendDimensions;
+import com.github.novicezk.midjourney.enums.TaskAction;
 import com.github.novicezk.midjourney.result.Message;
 import com.github.novicezk.midjourney.result.SubmitResultVO;
 import com.github.novicezk.midjourney.support.Task;
@@ -95,4 +96,49 @@ public class TaskServiceImpl implements TaskService {
 		});
 	}
 
+	@Override
+	public SubmitResultVO submitZoom(Task task, String targetMessageId, String targetMessageHash, int messageFlags) {
+		return this.taskQueueHelper.submitTask(task, () -> {
+			String zoomOut;
+			if(task.getAction().equals(TaskAction.ZOOM_1)){
+				zoomOut="75";
+			} else if (task.getAction().equals(TaskAction.ZOOM_2)) {
+				zoomOut = "50";
+			}else {
+				zoomOut = "50";
+			}
+
+			return this.discordService.zoom(targetMessageId, targetMessageHash, task.getPropertyGeneric(Constants.TASK_PROPERTY_NONCE),zoomOut);
+		});
+	}
+
+	@Override
+	public SubmitResultVO submitVary(Task task, String targetMessageId, String targetMessageHash, int messageFlags) {
+		return this.taskQueueHelper.submitTask(task, () -> {
+			String vary;
+			if (task.getAction().equals(TaskAction.VARY_HIGH)) {
+				vary = "high_variation";
+			} else {
+				vary = "low_variation";
+			}
+			return this.discordService.vary(targetMessageId, targetMessageHash, task.getPropertyGeneric(Constants.TASK_PROPERTY_NONCE), vary);
+		});
+	}
+
+	@Override
+	public SubmitResultVO move(Task task, String targetMessageId, String targetMessageHash, int messageFlags) {
+		return this.taskQueueHelper.submitTask(task, () -> {
+			String move = "pan_up";
+			if (task.getAction().equals(TaskAction.MOVE_UP)) {
+				move = "pan_up";
+			} else if (task.getAction().equals(TaskAction.MOVE_DOWN)) {
+				move = "pan_down";
+			}if (task.getAction().equals(TaskAction.MOVE_LEFT)) {
+				move = "pan_left";
+			}if (task.getAction().equals(TaskAction.MOVE_RIGHT)) {
+				move = "pan_right";
+			}
+			return this.discordService.move(targetMessageId, targetMessageHash, task.getPropertyGeneric(Constants.TASK_PROPERTY_NONCE), move);
+		});
+	}
 }

@@ -45,6 +45,9 @@ public class DiscordServiceImpl implements DiscordService {
 	private String describeParamsJson;
 	private String blendParamsJson;
 	private String messageParamsJson;
+	private String varyParamsJson;
+	private String zoomParamsJson;
+	private String directionParamsJson;
 
 	private String discordUserToken;
 	private String discordGuildId;
@@ -72,6 +75,9 @@ public class DiscordServiceImpl implements DiscordService {
 		this.describeParamsJson = ResourceUtil.readUtf8Str("api-params/describe.json");
 		this.blendParamsJson = ResourceUtil.readUtf8Str("api-params/blend.json");
 		this.messageParamsJson = ResourceUtil.readUtf8Str("api-params/message.json");
+		this.varyParamsJson = ResourceUtil.readUtf8Str("api-params/vary.json");
+		this.zoomParamsJson = ResourceUtil.readUtf8Str("api-params/zoomout.json");
+		this.directionParamsJson = ResourceUtil.readUtf8Str("api-params/move.json");
 	}
 
 	@Override
@@ -237,5 +243,36 @@ public class DiscordServiceImpl implements DiscordService {
 				return Message.of(e.getRawStatusCode(), CharSequenceUtil.sub(e.getMessage(), 0, 100));
 			}
 		}
+	}
+
+
+	@Override
+	public Message<Void> zoom(String messageId, String messageHash, String nonce,String zoomOut) {
+		String paramsStr = replaceInteractionParams(this.zoomParamsJson, nonce)
+				.replace("$zoom_out",zoomOut)
+				.replace("$message_id", messageId)
+				.replace("$message_hash", messageHash);
+
+		return postJsonAndCheckStatus(paramsStr);
+	}
+
+	@Override
+	public Message<Void> vary(String messageId, String messageHash, String nonce, String vary) {
+		String paramsStr = replaceInteractionParams(this.varyParamsJson, nonce)
+				.replace("$vary",vary)
+				.replace("$message_id", messageId)
+				.replace("$message_hash", messageHash);
+
+		return postJsonAndCheckStatus(paramsStr);
+	}
+
+	@Override
+	public Message<Void> move(String messageId, String messageHash, String nonce, String move) {
+		String paramsStr = replaceInteractionParams(this.directionParamsJson, nonce)
+				.replace("$move",move)
+				.replace("$message_id", messageId)
+				.replace("$message_hash", messageHash);
+
+		return postJsonAndCheckStatus(paramsStr);
 	}
 }

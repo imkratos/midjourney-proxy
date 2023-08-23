@@ -12,13 +12,13 @@ import java.util.Set;
 
 /**
  * variation消息处理.
- * 完成(create): **cat** - Variations (Strong或Subtle) by <@1012983546824114217> (relaxed)
- * 完成(create): **cat** - Variations by <@1012983546824114217> (relaxed)
+ * 完成(create): **cat** - Zoom Out by <@1012983546824114217> (relaxed)
+ * 完成(create): **cat** - Zoom Out by <@1012983546824114217> (relaxed)
  */
 @Component
-public class VariationSuccessHandler extends MessageHandler {
-	private static final String CONTENT_REGEX_1 = "\\*\\*(.*?)\\*\\* - Variations by <@\\d+> \\((.*?)\\)";
-	private static final String CONTENT_REGEX_2 = "\\*\\*(.*?)\\*\\* - Variations \\(.*?\\) by <@\\d+> \\((.*?)\\)";
+public class ZoomSuccessHandler extends MessageHandler {
+	private static final String CONTENT_REGEX_1 = "\\*\\*(.*?)\\*\\* - Zoom Out by <@\\d+> \\((.*?)\\)";
+	private static final String CONTENT_REGEX_2 = "\\*\\*(.*?)\\*\\* - Zoom Out \\(.*?\\) by <@\\d+> \\((.*?)\\)";
 
 	@Override
 	public void handle(MessageType messageType, DataObject message) {
@@ -26,7 +26,7 @@ public class VariationSuccessHandler extends MessageHandler {
 		ContentParseData parseData = getParseData(content);
 		if (MessageType.CREATE.equals(messageType) && parseData != null && hasImage(message)) {
 			TaskCondition condition = new TaskCondition()
-					.setActionSet(Set.of(TaskAction.VARIATION,TaskAction.VARY_LOW,TaskAction.VARY_HIGH))
+					.setActionSet(Set.of(TaskAction.ZOOM_1,TaskAction.ZOOM_2))
 					.setFinalPromptEn(parseData.getPrompt());
 			findAndFinishImageTask(condition, parseData.getPrompt(), message);
 		}

@@ -25,6 +25,34 @@ public enum TaskAction {
 	/**
 	 * 多图混合.
 	 */
-	BLEND
+	BLEND,
+
+	/**
+	 * 放大1.5X
+	 */
+	ZOOM_1,
+	/**
+	 * 放大2
+	 */
+	ZOOM_2,
+
+	/**
+	 * high_variation
+	 */
+	VARY_HIGH,
+	/**
+	 * low_variation
+	 */
+	VARY_LOW,
+
+	/**
+	 * up down left right
+	 */
+	MOVE_UP,
+	MOVE_DOWN,
+	MOVE_LEFT,
+	MOVE_RIGHT
+
+
 
 }
