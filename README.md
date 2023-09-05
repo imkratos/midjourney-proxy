@@ -16,18 +16,9 @@
 - [x] 支持 discord域名(server、cdn、wss)反代，配置 mj.ng-discord
 - [x] 支持多账号配置，每个账号可设置对应的任务队列
 
-**🚀 更多功能请查看 [midjourney-proxy-plus](https://github.com/litter-coder/midjourney-proxy-plus)**
-> - [x] 支持开源版的所有功能
-> - [x] 支持 Shorten(prompt分析) 指令
-> - [x] 支持焦点移动: Pan ⬅️ ➡️ ⬆️ ⬇️
-> - [x] 支持图片变焦: Zoom 🔍
-> - [x] 支持局部重绘: Vary (Region) 🖌
-> - [x] 支持几乎所有的关联按钮动作和🎛️ Remix模式
-> - [x] 支持获取图片的seed值
-> - [x] 中英文翻译额外支持deepl
-> - [x] 账号池持久化，动态维护
-> - [x] 支持获取账号/info、/settings信息
-> - [x] 内嵌管理后台页面
+## 以下为在原版基础增加的功能
+- [x] 支持U之后的所有相关动作：Zoom(图片变焦)、Pan(焦点移动) 等
+- [x] 支持U之后的所有相关动作：Vary(Strong)、Vary(Subtle) 等
 
 ## 使用前提
 1. 注册并订阅 MidJourney，创建自己的频道，参考 https://docs.midjourney.com/docs/quick-start
@@ -54,15 +45,13 @@
 
 ## 相关文档
 1. [API接口说明](./docs/api.md)
-2. [版本更新记录](https://github.com/novicezk/midjourney-proxy/wiki/%E6%9B%B4%E6%96%B0%E8%AE%B0%E5%BD%95)
+2. [版本更新记录](https://github.com/imkratos/midjourney-proxy/wiki/%E6%9B%B4%E6%96%B0%E8%AE%B0%E5%BD%95)
 
 ## 注意事项
 1. 作图频繁等行为，可能会触发midjourney账号警告，请谨慎使用
-2. 常见问题及解决办法见 [Wiki / FAQ](https://github.com/novicezk/midjourney-proxy/wiki/FAQ)
-3. 在 [Issues](https://github.com/novicezk/midjourney-proxy/issues) 中提出其他问题或建议
-4. 感兴趣的朋友也欢迎加入交流群讨论一下，扫码进群名额已满，加管理员微信邀请进群
+2. 常见问题及解决办法见 [Wiki / FAQ](https://github.com/imkratos/midjourney-proxy/wiki/FAQ)
+3. 在 [Issues](https://github.com/imkratos/midjourney-proxy/issues) 中提出其他问题或建议
 
- <img src="https://raw.githubusercontent.com/novicezk/midjourney-proxy/main/docs/manager-qrcode.png" width="220" alt="微信二维码"/>
 
 ## 应用项目
 依赖此项目且开源的，欢迎联系作者，加到此处展示
@@ -74,6 +63,6 @@
 ## 其它
 如果觉得这个项目对你有所帮助，请帮忙点个star；也可以请作者喝杯茶～
 
- <img src="https://raw.githubusercontent.com/novicezk/midjourney-proxy/main/docs/receipt-code.png" width="220" alt="二维码"/>
+  <img src="https://raw.githubusercontent.com/imkratos/midjourney-proxy/main/docs/wxcode.png" width="220" alt="微信二维码"/>
 
 [![Star History Chart](https://api.star-history.com/svg?repos=novicezk/midjourney-proxy&type=Date)](https://star-history.com/#novicezk/midjourney-proxy&Date)

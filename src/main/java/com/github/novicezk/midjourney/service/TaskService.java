@@ -20,4 +20,10 @@ public interface TaskService {
 	SubmitResultVO submitDescribe(Task task, DataUrl dataUrl);
 
 	SubmitResultVO submitBlend(Task task, List<DataUrl> dataUrls, BlendDimensions dimensions);
+
+	SubmitResultVO submitZoom(Task task, String targetMessageId, String targetMessageHash,int messageFlags);
+
+	SubmitResultVO submitVary(Task task, String targetMessageId, String targetMessageHash,int messageFlags);
+
+	SubmitResultVO move(Task task, String targetMessageId, String targetMessageHash, int messageFlags);
 }

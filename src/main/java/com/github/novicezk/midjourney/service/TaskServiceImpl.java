@@ -3,6 +3,7 @@ package com.github.novicezk.midjourney.service;
 import com.github.novicezk.midjourney.Constants;
 import com.github.novicezk.midjourney.ReturnCode;
 import com.github.novicezk.midjourney.enums.BlendDimensions;
+import com.github.novicezk.midjourney.enums.TaskAction;
 import com.github.novicezk.midjourney.loadbalancer.DiscordInstance;
 import com.github.novicezk.midjourney.loadbalancer.DiscordLoadBalancer;
 import com.github.novicezk.midjourney.result.Message;
@@ -125,4 +126,64 @@ public class TaskServiceImpl implements TaskService {
 		});
 	}
 
+	@Override
+	public SubmitResultVO submitZoom(Task task, String targetMessageId, String targetMessageHash, int messageFlags) {
+		DiscordInstance discordInstance = this.discordLoadBalancer.chooseInstance();
+		if (discordInstance == null) {
+			return SubmitResultVO.fail(ReturnCode.NOT_FOUND, "无可用的账号实例");
+		}
+		task.setProperty(Constants.TASK_PROPERTY_DISCORD_INSTANCE_ID, discordInstance.getInstanceId());
+		return discordInstance.submitTask(task, () -> {
+			String zoomOut;
+			if(task.getAction().equals(TaskAction.ZOOM_1)){
+				zoomOut="75";
+			} else if (task.getAction().equals(TaskAction.ZOOM_2)) {
+				zoomOut = "50";
+			}else {
+				zoomOut = "50";
+			}
+			return discordInstance.zoom(targetMessageId, targetMessageHash, task.getPropertyGeneric(Constants.TASK_PROPERTY_NONCE),zoomOut);
+		});
+	}
+
+	@Override
+	public SubmitResultVO submitVary(Task task, String targetMessageId, String targetMessageHash, int messageFlags) {
+		DiscordInstance discordInstance = this.discordLoadBalancer.chooseInstance();
+		if (discordInstance == null) {
+			return SubmitResultVO.fail(ReturnCode.NOT_FOUND, "无可用的账号实例");
+		}
+		task.setProperty(Constants.TASK_PROPERTY_DISCORD_INSTANCE_ID, discordInstance.getInstanceId());
+		return discordInstance.submitTask(task, () -> {
+			String vary;
+			if (task.getAction().equals(TaskAction.VARY_HIGH)) {
+				vary = "high_variation";
+			} else {
+				vary = "low_variation";
+			}
+			return discordInstance.vary(targetMessageId, targetMessageHash, task.getPropertyGeneric(Constants.TASK_PROPERTY_NONCE), vary);
+		});
+	}
+
+	@Override
+	public SubmitResultVO move(Task task, String targetMessageId, String targetMessageHash, int messageFlags) {
+		DiscordInstance discordInstance = this.discordLoadBalancer.chooseInstance();
+		if (discordInstance == null) {
+			return SubmitResultVO.fail(ReturnCode.NOT_FOUND, "无可用的账号实例");
+		}
+		task.setProperty(Constants.TASK_PROPERTY_DISCORD_INSTANCE_ID, discordInstance.getInstanceId());
+
+		return discordInstance.submitTask(task, () -> {
+			String move = "pan_up";
+			if (task.getAction().equals(TaskAction.MOVE_UP)) {
+				move = "pan_up";
+			} else if (task.getAction().equals(TaskAction.MOVE_DOWN)) {
+				move = "pan_down";
+			}if (task.getAction().equals(TaskAction.MOVE_LEFT)) {
+				move = "pan_left";
+			}if (task.getAction().equals(TaskAction.MOVE_RIGHT)) {
+				move = "pan_right";
+			}
+			return discordInstance.move(targetMessageId, targetMessageHash, task.getPropertyGeneric(Constants.TASK_PROPERTY_NONCE), move);
+		});
+	}
 }

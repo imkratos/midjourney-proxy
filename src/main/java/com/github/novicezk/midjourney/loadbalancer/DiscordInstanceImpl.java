@@ -194,6 +194,21 @@ public class DiscordInstanceImpl implements DiscordInstance {
 	}
 
 	@Override
+	public Message<Void> zoom(String messageId, String messageHash, String nonce, String zoomOut) {
+		return this.service.zoom(messageId, messageHash, nonce, zoomOut);
+	}
+
+	@Override
+	public Message<Void> vary(String messageId, String messageHash, String nonce, String vary) {
+		return this.service.vary(messageId, messageHash, nonce, vary);
+	}
+
+	@Override
+	public Message<Void> move(String messageId, String messageHash, String nonce, String move) {
+		return this.service.move(messageId, messageHash, nonce, move);
+	}
+
+	@Override
 	public Message<String> upload(String fileName, DataUrl dataUrl) {
 		return this.service.upload(fileName, dataUrl);
 	}

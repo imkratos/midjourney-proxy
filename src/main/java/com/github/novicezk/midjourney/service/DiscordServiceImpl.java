@@ -33,6 +33,8 @@ public class DiscordServiceImpl implements DiscordService {
 	private final String discordAttachmentUrl;
 	private final String discordMessageUrl;
 
+	private final String regionUrl;
+
 	public DiscordServiceImpl(DiscordAccount account, RestTemplate restTemplate, String discordServer, Map<String, String> paramsMap) {
 		this.account = account;
 		this.restTemplate = restTemplate;
@@ -40,6 +42,7 @@ public class DiscordServiceImpl implements DiscordService {
 		this.discordInteractionUrl = discordServer + "/api/v9/interactions";
 		this.discordAttachmentUrl = discordServer + "/api/v9/channels/" + account.getChannelId() + "/attachments";
 		this.discordMessageUrl = discordServer + "/api/v9/channels/" + account.getChannelId() + "/messages";
+		this.regionUrl = "https://936929561302675456.discordsays.com/inpaint/api/submit-job";
 	}
 
 	@Override
@@ -88,6 +91,38 @@ public class DiscordServiceImpl implements DiscordService {
 				.replace("$final_file_name", finalFileName);
 		return postJsonAndCheckStatus(paramsStr);
 	}
+
+
+
+	@Override
+	public Message<Void> zoom(String messageId, String messageHash, String nonce,String zoomOut) {
+		String paramsStr = replaceInteractionParams(this.paramsMap.get("zoomout"), nonce)
+				.replace("$zoom_out",zoomOut)
+				.replace("$message_id", messageId)
+				.replace("$message_hash", messageHash);
+		return postJsonAndCheckStatus(paramsStr);
+	}
+
+	@Override
+	public Message<Void> vary(String messageId, String messageHash, String nonce, String vary) {
+		String paramsStr = replaceInteractionParams(this.paramsMap.get("vary"), nonce)
+				.replace("$vary",vary)
+				.replace("$message_id", messageId)
+				.replace("$message_hash", messageHash);
+
+		return postJsonAndCheckStatus(paramsStr);
+	}
+
+	@Override
+	public Message<Void> move(String messageId, String messageHash, String nonce, String move) {
+		String paramsStr = replaceInteractionParams(this.paramsMap.get("move"), nonce)
+				.replace("$move",move)
+				.replace("$message_id", messageId)
+				.replace("$message_hash", messageHash);
+		return postJsonAndCheckStatus(paramsStr);
+	}
+
+
 
 	@Override
 	public Message<Void> blend(List<String> finalFileNames, BlendDimensions dimensions, String nonce) {
