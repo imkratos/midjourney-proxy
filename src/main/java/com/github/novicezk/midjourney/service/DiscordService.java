@@ -31,4 +31,7 @@ public interface DiscordService {
 
 	Message<Void> move(String messageId, String messageHash, String nonce,String move);
 
+	Message<Void> info(String nonce);
+
+
 }
