@@ -122,6 +122,12 @@ public class DiscordServiceImpl implements DiscordService {
 		return postJsonAndCheckStatus(paramsStr);
 	}
 
+	@Override
+	public Message<Void> info(String nonce) {
+		String paramsStr = replaceInteractionParams(this.paramsMap.get("info"), nonce);
+		return postJsonAndCheckStatus(paramsStr);
+	}
+
 
 
 	@Override
