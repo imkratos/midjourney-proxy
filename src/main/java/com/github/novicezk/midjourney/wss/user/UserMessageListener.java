@@ -31,7 +31,6 @@ public class UserMessageListener {
 			return;
 		}
 		ThreadUtil.sleep(50);
-		System.out.println("llll:"+data);
 		for (MessageHandler messageHandler : this.messageHandlers) {
 			messageHandler.handle(messageType, data);
 		}
