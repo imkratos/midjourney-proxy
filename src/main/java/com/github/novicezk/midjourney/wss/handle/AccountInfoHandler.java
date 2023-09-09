@@ -1,5 +1,6 @@
 package com.github.novicezk.midjourney.wss.handle;
 
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
 import com.github.novicezk.midjourney.enums.MessageType;
 import com.github.novicezk.midjourney.loadbalancer.DiscordInstance;
@@ -24,7 +25,7 @@ public class AccountInfoHandler extends MessageHandler{
     public void handle(MessageType messageType, DataObject message) {
         String channelId = message.getString("channel_id");
         DiscordInstance discordInstance = loadBalancer.getDiscordInstance(channelId);
-        if(messageType.equals(MessageType.UPDATE) && !Objects.isNull(discordInstance)){
+        if(messageType.equals(MessageType.UPDATE) && !Objects.isNull(discordInstance) && CollectionUtil.isNotEmpty(message.getArray("embeds"))){
             parseInfoData(discordInstance,message.getArray("embeds").getObject(0).getString("description"));
             AsyncLockUtils.LockObject lock = AsyncLockUtils.getLock(ACCOUNT_INFO_LOCK_KEY+channelId);
             if(lock !=null){
@@ -43,7 +44,6 @@ public class AccountInfoHandler extends MessageHandler{
             String key = line[0];
             String value = line[1];
             value = StrUtil.trimToEmpty(value);
-            System.out.println(value);
             if (key.contains("Fast Time Remaining")) {
                 discordInstance.account().setFastTimeRemaining(value);
             } else if (key.contains("Lifetime Usage")) {
