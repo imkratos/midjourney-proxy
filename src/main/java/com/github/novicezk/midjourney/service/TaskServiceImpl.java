@@ -128,11 +128,11 @@ public class TaskServiceImpl implements TaskService {
 
 	@Override
 	public SubmitResultVO submitZoom(Task task, String targetMessageId, String targetMessageHash, int messageFlags) {
-		DiscordInstance discordInstance = this.discordLoadBalancer.chooseInstance();
-		if (discordInstance == null) {
-			return SubmitResultVO.fail(ReturnCode.NOT_FOUND, "无可用的账号实例");
+		String instanceId = task.getPropertyGeneric(Constants.TASK_PROPERTY_DISCORD_INSTANCE_ID);
+		DiscordInstance discordInstance = this.discordLoadBalancer.getDiscordInstance(instanceId);
+		if (discordInstance == null || !discordInstance.isAlive()) {
+			return SubmitResultVO.fail(ReturnCode.NOT_FOUND, "账号不可用: " + instanceId);
 		}
-		task.setProperty(Constants.TASK_PROPERTY_DISCORD_INSTANCE_ID, discordInstance.getInstanceId());
 		return discordInstance.submitTask(task, () -> {
 			String zoomOut;
 			if(task.getAction().equals(TaskAction.ZOOM_1)){
@@ -148,11 +148,11 @@ public class TaskServiceImpl implements TaskService {
 
 	@Override
 	public SubmitResultVO submitVary(Task task, String targetMessageId, String targetMessageHash, int messageFlags) {
-		DiscordInstance discordInstance = this.discordLoadBalancer.chooseInstance();
-		if (discordInstance == null) {
-			return SubmitResultVO.fail(ReturnCode.NOT_FOUND, "无可用的账号实例");
+		String instanceId = task.getPropertyGeneric(Constants.TASK_PROPERTY_DISCORD_INSTANCE_ID);
+		DiscordInstance discordInstance = this.discordLoadBalancer.getDiscordInstance(instanceId);
+		if (discordInstance == null || !discordInstance.isAlive()) {
+			return SubmitResultVO.fail(ReturnCode.NOT_FOUND, "账号不可用: " + instanceId);
 		}
-		task.setProperty(Constants.TASK_PROPERTY_DISCORD_INSTANCE_ID, discordInstance.getInstanceId());
 		return discordInstance.submitTask(task, () -> {
 			String vary;
 			if (task.getAction().equals(TaskAction.VARY_HIGH)) {
@@ -166,12 +166,11 @@ public class TaskServiceImpl implements TaskService {
 
 	@Override
 	public SubmitResultVO move(Task task, String targetMessageId, String targetMessageHash, int messageFlags) {
-		DiscordInstance discordInstance = this.discordLoadBalancer.chooseInstance();
-		if (discordInstance == null) {
-			return SubmitResultVO.fail(ReturnCode.NOT_FOUND, "无可用的账号实例");
+		String instanceId = task.getPropertyGeneric(Constants.TASK_PROPERTY_DISCORD_INSTANCE_ID);
+		DiscordInstance discordInstance = this.discordLoadBalancer.getDiscordInstance(instanceId);
+		if (discordInstance == null || !discordInstance.isAlive()) {
+			return SubmitResultVO.fail(ReturnCode.NOT_FOUND, "账号不可用: " + instanceId);
 		}
-		task.setProperty(Constants.TASK_PROPERTY_DISCORD_INSTANCE_ID, discordInstance.getInstanceId());
-
 		return discordInstance.submitTask(task, () -> {
 			String move = "pan_up";
 			if (task.getAction().equals(TaskAction.MOVE_UP)) {
