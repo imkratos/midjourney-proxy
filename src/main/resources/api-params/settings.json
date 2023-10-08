@@ -1,0 +1,16 @@
+{
+  "type": 3,
+  "nonce": "$nonce",
+  "guild_id": "$guild_id",
+  "channel_id": "$channel_id",
+  "message_flags": 64,
+  "message_id": "1160405256170110986",
+  "application_id": "936929561302675456",
+  "session_id": "$session_id",
+  "data": {
+    "component_type": 2,
+    "custom_id": "MJ::Settings::$set_value"
+  }
+}
+
+

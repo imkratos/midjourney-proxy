@@ -214,6 +214,11 @@ public class DiscordInstanceImpl implements DiscordInstance {
 	}
 
 	@Override
+	public Message<Void> settings(String nonce, String value) {
+		return this.service.settings(nonce, value);
+	}
+
+	@Override
 	public Message<String> upload(String fileName, DataUrl dataUrl) {
 		return this.service.upload(fileName, dataUrl);
 	}
