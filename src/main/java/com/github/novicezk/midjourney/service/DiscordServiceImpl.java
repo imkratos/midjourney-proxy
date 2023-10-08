@@ -128,7 +128,12 @@ public class DiscordServiceImpl implements DiscordService {
 		return postJsonAndCheckStatus(paramsStr);
 	}
 
-
+	@Override
+	public Message<Void> settings(String nonce, String value) {
+		String paramsStr = replaceInteractionParams(this.paramsMap.get("settings"), nonce)
+				.replace("$set_value",value);
+		return postJsonAndCheckStatus(paramsStr);
+	}
 
 	@Override
 	public Message<Void> blend(List<String> finalFileNames, BlendDimensions dimensions, String nonce) {

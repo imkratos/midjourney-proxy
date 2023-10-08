@@ -33,5 +33,7 @@ public interface DiscordService {
 
 	Message<Void> info(String nonce);
 
+	Message<Void> settings(String nonce, String value);
+
 
 }

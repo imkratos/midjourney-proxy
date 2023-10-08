@@ -2,7 +2,7 @@
 
 代理 MidJourney 的discord频道，实现api形式调用AI绘图
 
-[![GitHub release](https://img.shields.io/static/v1?label=release&message=v2.5.1&color=blue)](https://www.github.com/imkratos/midjourney-proxy)
+[![GitHub release](https://img.shields.io/static/v1?label=release&message=v2.5.1&color=blue)](https://www.github.com/novicezk/midjourney-proxy)
 [![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
 
 ## 主要功能
@@ -10,8 +10,8 @@
 - [x] Imagine 时支持添加图片base64，作为垫图
 - [x] 支持 Blend(图片混合)、Describe(图生文) 指令
 - [x] 支持任务实时进度
-- [x] 支持中英文翻译，需配置百度翻译或gpt
-- [x] prompt 敏感词判断，支持覆盖调整
+- [x] 支持中文prompt翻译，需配置百度翻译或gpt
+- [x] prompt 敏感词预检测，支持覆盖调整
 - [x] user-token 连接 wss，可以获取错误信息和完整功能
 - [x] 支持 discord域名(server、cdn、wss)反代，配置 mj.ng-discord
 - [x] 支持多账号配置，每个账号可设置对应的任务队列
@@ -20,6 +20,7 @@
 - [x] 支持U之后的所有相关动作：Zoom(图片变焦)、Pan(焦点移动) 等
 - [x] 支持U之后的所有相关动作：Vary(Strong)、Vary(Subtle) 等
 - [x] 支持帐户info功能
+- [x] 支持settings所有属性
 
 ## 使用前提
 1. 注册并订阅 MidJourney，创建自己的频道，参考 https://docs.midjourney.com/docs/quick-start
@@ -66,3 +67,4 @@
 
   <img src="https://raw.githubusercontent.com/imkratos/midjourney-proxy/main/docs/wxcode.png" width="220" alt="微信二维码"/>
 
+[![Star History Chart](https://api.star-history.com/svg?repos=novicezk/midjourney-proxy&type=Date)](https://star-history.com/#novicezk/midjourney-proxy&Date)
