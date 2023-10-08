@@ -20,6 +20,7 @@
 - [x] 支持U之后的所有相关动作：Zoom(图片变焦)、Pan(焦点移动) 等
 - [x] 支持U之后的所有相关动作：Vary(Strong)、Vary(Subtle) 等
 - [x] 支持帐户info功能
+- [x] 支持settings所有属性
 
 ## 使用前提
 1. 注册并订阅 MidJourney，创建自己的频道，参考 https://docs.midjourney.com/docs/quick-start
