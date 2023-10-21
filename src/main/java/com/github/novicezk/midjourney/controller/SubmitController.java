@@ -204,7 +204,7 @@ public class SubmitController {
 		if (CharSequenceUtil.isBlank(submitZoomDTO.getTaskId())) {
 			return SubmitResultVO.fail(ReturnCode.VALIDATION_ERROR, "taskId不能为空");
 		}
-		if (!Set.of(TaskAction.ZOOM_1,TaskAction.ZOOM_2).contains(submitZoomDTO.getAction())) {
+		if (!Set.of(TaskAction.ZOOM_1,TaskAction.ZOOM_2,TaskAction.UP2,TaskAction.UP4).contains(submitZoomDTO.getAction())) {
 			return SubmitResultVO.fail(ReturnCode.VALIDATION_ERROR, "action参数错误");
 		}
 

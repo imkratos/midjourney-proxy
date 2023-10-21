@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Slf4j
 @Service
@@ -133,17 +134,31 @@ public class TaskServiceImpl implements TaskService {
 		if (discordInstance == null || !discordInstance.isAlive()) {
 			return SubmitResultVO.fail(ReturnCode.NOT_FOUND, "账号不可用: " + instanceId);
 		}
-		return discordInstance.submitTask(task, () -> {
-			String zoomOut;
-			if(task.getAction().equals(TaskAction.ZOOM_1)){
-				zoomOut="75";
-			} else if (task.getAction().equals(TaskAction.ZOOM_2)) {
-				zoomOut = "50";
-			}else {
-				zoomOut = "50";
-			}
-			return discordInstance.zoom(targetMessageId, targetMessageHash, task.getPropertyGeneric(Constants.TASK_PROPERTY_NONCE),zoomOut);
-		});
+
+		if(Set.of(TaskAction.ZOOM_1,TaskAction.ZOOM_2).contains(task.getAction())){
+			return discordInstance.submitTask(task, () -> {
+				String zoomOut;
+				if(task.getAction().equals(TaskAction.ZOOM_1)){
+					zoomOut="75";
+				} else if (task.getAction().equals(TaskAction.ZOOM_2)) {
+					zoomOut = "50";
+				}else {
+					zoomOut = "50";
+				}
+				return discordInstance.zoom(targetMessageId, targetMessageHash, task.getPropertyGeneric(Constants.TASK_PROPERTY_NONCE),zoomOut);
+			});
+		}else {
+			return discordInstance.submitTask(task, () -> {
+				String upscaleParam = "upsample_v5_2x";
+				if(TaskAction.UP2.equals(task.getAction())){
+
+				}else if(TaskAction.UP4.equals(task.getAction())){
+					upscaleParam = "upsample_v5_4x";
+				}
+				return discordInstance.upscale(targetMessageId, targetMessageHash, task.getPropertyGeneric(Constants.TASK_PROPERTY_NONCE),upscaleParam);
+			});
+		}
+
 	}
 
 	@Override

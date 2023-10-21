@@ -23,6 +23,7 @@ public class UpscaleSuccessHandler extends MessageHandler {
 	private static final String CONTENT_REGEX_1 = "\\*\\*(.*?)\\*\\* - Upscaled \\(.*?\\) by <@\\d+> \\((.*?)\\)";
 	private static final String CONTENT_REGEX_2 = "\\*\\*(.*?)\\*\\* - Upscaled by <@\\d+> \\((.*?)\\)";
 	private static final String CONTENT_REGEX_3 = "\\*\\*(.*?)\\*\\* - Image #\\d <@\\d+>";
+	private static final String CONTENT_REGEX_4 = "\\*\\*(.*?)\\*\\* - Upscaling \\(.*?\\) by <@\\d+> \\((.*?)\\)";
 
 	@Override
 	public void handle(MessageType messageType, DataObject message) {
@@ -30,7 +31,7 @@ public class UpscaleSuccessHandler extends MessageHandler {
 		ContentParseData parseData = getParseData(content);
 		if (MessageType.CREATE.equals(messageType) && parseData != null && hasImage(message)) {
 			TaskCondition condition = new TaskCondition()
-					.setActionSet(Set.of(TaskAction.UPSCALE))
+					.setActionSet(Set.of(TaskAction.UPSCALE,TaskAction.UP2,TaskAction.UP4))
 					.setFinalPromptEn(parseData.getPrompt());
 			findAndFinishImageTask(condition, parseData.getPrompt(), message);
 		}
@@ -40,6 +41,10 @@ public class UpscaleSuccessHandler extends MessageHandler {
 		ContentParseData parseData = ConvertUtils.parseContent(content, CONTENT_REGEX_1);
 		if (parseData == null) {
 			parseData = ConvertUtils.parseContent(content, CONTENT_REGEX_2);
+			//just try need modify
+			if (parseData == null) {
+				parseData = ConvertUtils.parseContent(content, CONTENT_REGEX_4);
+			}
 		}
 		if (parseData != null) {
 			return parseData;

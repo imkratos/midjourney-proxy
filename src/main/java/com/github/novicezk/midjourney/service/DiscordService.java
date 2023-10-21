@@ -27,6 +27,8 @@ public interface DiscordService {
 
 
 	Message<Void> zoom(String messageId, String messageHash, String nonce,String zoomOut);
+
+	Message<Void> upscale(String messageId, String messageHash, String nonce, String upscale);
 	Message<Void> vary(String messageId, String messageHash, String nonce,String vary);
 
 	Message<Void> move(String messageId, String messageHash, String nonce,String move);
