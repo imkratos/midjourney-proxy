@@ -10,11 +10,7 @@ import eu.maxschuster.dataurl.DataUrl;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 
@@ -98,6 +94,17 @@ public class DiscordServiceImpl implements DiscordService {
 	public Message<Void> zoom(String messageId, String messageHash, String nonce,String zoomOut) {
 		String paramsStr = replaceInteractionParams(this.paramsMap.get("zoomout"), nonce)
 				.replace("$zoom_out",zoomOut)
+				.replace("$message_id", messageId)
+				.replace("$message_hash", messageHash);
+		return postJsonAndCheckStatus(paramsStr);
+	}
+
+
+	@Override
+	public Message<Void> upscale(String messageId, String messageHash, String nonce, String upscale) {
+
+		String paramsStr = replaceInteractionParams(this.paramsMap.get("upscale2"), nonce)
+				.replace("$upscale_param",upscale)
 				.replace("$message_id", messageId)
 				.replace("$message_hash", messageHash);
 		return postJsonAndCheckStatus(paramsStr);

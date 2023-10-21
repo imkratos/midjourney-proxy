@@ -53,4 +53,7 @@ public enum TaskAction {
 	MOVE_LEFT,
 	MOVE_RIGHT,
 
+	UP2,
+	UP4
+
 }

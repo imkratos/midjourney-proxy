@@ -199,6 +199,11 @@ public class DiscordInstanceImpl implements DiscordInstance {
 	}
 
 	@Override
+	public Message<Void> upscale(String messageId, String messageHash, String nonce, String upscale) {
+		return this.service.upscale(messageId, messageHash, nonce, upscale);
+	}
+
+	@Override
 	public Message<Void> vary(String messageId, String messageHash, String nonce, String vary) {
 		return this.service.vary(messageId, messageHash, nonce, vary);
 	}
