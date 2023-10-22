@@ -1,6 +1,5 @@
 package com.github.novicezk.midjourney.controller;
 
-import cn.hutool.core.text.CharSequenceUtil;
 import com.github.novicezk.midjourney.domain.DiscordAccount;
 import com.github.novicezk.midjourney.dto.SettingsDTO;
 import com.github.novicezk.midjourney.loadbalancer.DiscordInstance;
@@ -47,16 +46,14 @@ public class AccountController {
 	@GetMapping("{id}/info")
 	public Message<DiscordAccount> info(@ApiParam(value = "channel-id") @PathVariable String id) {
 		DiscordInstance instance = this.loadBalancer.getDiscordInstance(id);
-		if(Objects.isNull(instance)){
+		if (Objects.isNull(instance)) {
 			return Message.failure("channel-id 不存在");
 		}
-		if(CharSequenceUtil.isBlank(instance.account().getFastTimeRemaining())){
-			try {
-				instance.info(SnowFlake.INSTANCE.nextId());
-				AsyncLockUtils.waitForLock(AccountInfoHandler.ACCOUNT_INFO_LOCK_KEY+instance.getInstanceId(), Duration.ofMinutes(1L));
-			} catch (TimeoutException e) {
-				return Message.failure("获取info 信息失败: "+e.getMessage());
-			}
+		try {
+			instance.info(SnowFlake.INSTANCE.nextId());
+			AsyncLockUtils.waitForLock(AccountInfoHandler.ACCOUNT_INFO_LOCK_KEY + instance.getInstanceId(), Duration.ofMinutes(1L));
+		} catch (TimeoutException e) {
+			return Message.failure("获取info 信息失败: " + e.getMessage());
 		}
 		return Message.success(instance.account());
 	}
