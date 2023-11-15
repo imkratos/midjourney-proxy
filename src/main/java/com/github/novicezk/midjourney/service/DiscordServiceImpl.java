@@ -45,7 +45,6 @@ public class DiscordServiceImpl implements DiscordService {
 		this.discordInteractionUrl = discordServer + "/api/v9/interactions";
 		this.discordAttachmentUrl = discordServer + "/api/v9/channels/" + account.getChannelId() + "/attachments";
 		this.discordMessageUrl = discordServer + "/api/v9/channels/" + account.getChannelId() + "/messages";
-		this.regionUrl = "https://936929561302675456.discordsays.com/inpaint/api/submit-job";
 	}
 
 	@Override
@@ -123,7 +122,6 @@ public class DiscordServiceImpl implements DiscordService {
 				.replace("$vary",vary)
 				.replace("$message_id", messageId)
 				.replace("$message_hash", messageHash);
-
 		return postJsonAndCheckStatus(paramsStr);
 	}
 
