@@ -6,11 +6,17 @@ import com.github.novicezk.midjourney.ReturnCode;
 import com.github.novicezk.midjourney.domain.DiscordAccount;
 import com.github.novicezk.midjourney.enums.BlendDimensions;
 import com.github.novicezk.midjourney.result.Message;
+import com.github.novicezk.midjourney.support.DiscordHelper;
+import com.github.novicezk.midjourney.support.SpringContextHolder;
 import eu.maxschuster.dataurl.DataUrl;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.springframework.http.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 
@@ -24,21 +30,21 @@ public class DiscordServiceImpl implements DiscordService {
 	private final DiscordAccount account;
 	private final Map<String, String> paramsMap;
 	private final RestTemplate restTemplate;
+	private final DiscordHelper discordHelper;
 
 	private final String discordInteractionUrl;
 	private final String discordAttachmentUrl;
 	private final String discordMessageUrl;
 
-	private final String regionUrl;
-
-	public DiscordServiceImpl(DiscordAccount account, RestTemplate restTemplate, String discordServer, Map<String, String> paramsMap) {
+	public DiscordServiceImpl(DiscordAccount account, RestTemplate restTemplate, Map<String, String> paramsMap) {
 		this.account = account;
 		this.restTemplate = restTemplate;
+		this.discordHelper = SpringContextHolder.getApplicationContext().getBean(DiscordHelper.class);
 		this.paramsMap = paramsMap;
+		String discordServer = this.discordHelper.getServer();
 		this.discordInteractionUrl = discordServer + "/api/v9/interactions";
 		this.discordAttachmentUrl = discordServer + "/api/v9/channels/" + account.getChannelId() + "/attachments";
 		this.discordMessageUrl = discordServer + "/api/v9/channels/" + account.getChannelId() + "/messages";
-		this.regionUrl = "https://936929561302675456.discordsays.com/inpaint/api/submit-job";
 	}
 
 	@Override
@@ -116,7 +122,6 @@ public class DiscordServiceImpl implements DiscordService {
 				.replace("$vary",vary)
 				.replace("$message_id", messageId)
 				.replace("$message_hash", messageHash);
-
 		return postJsonAndCheckStatus(paramsStr);
 	}
 
@@ -222,6 +227,7 @@ public class DiscordServiceImpl implements DiscordService {
 	}
 
 	private void putFile(String uploadUrl, DataUrl dataUrl) {
+		uploadUrl = this.discordHelper.getDiscordUploadUrl(uploadUrl);
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("User-Agent", this.account.getUserAgent());
 		headers.setContentType(MediaType.valueOf(dataUrl.getMimeType()));
