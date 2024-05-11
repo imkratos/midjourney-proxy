@@ -22,7 +22,7 @@ public class AccountInfoHandler extends MessageHandler{
     private final DiscordLoadBalancer loadBalancer;
 
     @Override
-    public void handle(MessageType messageType, DataObject message) {
+    public void handle(DiscordInstance instance,MessageType messageType, DataObject message) {
         String channelId = message.getString("channel_id");
         DiscordInstance discordInstance = loadBalancer.getDiscordInstance(channelId);
         if(messageType.equals(MessageType.UPDATE) && !Objects.isNull(discordInstance) && CollectionUtil.isNotEmpty(message.getArray("embeds"))){
