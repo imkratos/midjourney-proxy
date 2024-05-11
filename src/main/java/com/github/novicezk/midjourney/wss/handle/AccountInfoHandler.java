@@ -13,15 +13,15 @@ import org.springframework.stereotype.Component;
 import java.util.Objects;
 
 
-@Component
+//@Component
 @RequiredArgsConstructor
-public class AccountInfoHandler extends MessageHandler{
+public class AccountInfoHandler{
 
     public static final String ACCOUNT_INFO_LOCK_KEY = "mp:account:info:lock:";
 
     private final DiscordLoadBalancer loadBalancer;
 
-    @Override
+//    @Override
     public void handle(DiscordInstance instance,MessageType messageType, DataObject message) {
         String channelId = message.getString("channel_id");
         DiscordInstance discordInstance = loadBalancer.getDiscordInstance(channelId);
